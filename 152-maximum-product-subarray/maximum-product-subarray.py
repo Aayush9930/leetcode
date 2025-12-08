@@ -5,9 +5,6 @@ class Solution:
         res = nums[0]
 
         for num in nums:
-            if num == 0:
-                maxProd, minProd = 1, 1
-
             tmp = maxProd * num
             maxProd = max(maxProd * num, minProd * num, num) # [-1,8]
             minProd = min(tmp, minProd * num, num)
