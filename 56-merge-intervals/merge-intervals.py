@@ -1,6 +1,6 @@
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        intervals = sorted(intervals)
+        intervals.sort()
         out = [intervals[0]]
         for i in range(1, len(intervals)):
             if intervals[i][0] <= out[-1][1]:
