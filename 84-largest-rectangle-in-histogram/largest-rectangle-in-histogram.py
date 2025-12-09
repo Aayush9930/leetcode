@@ -1,25 +1,72 @@
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
         stk = []
-        max_area = 0 
-        for i, height in enumerate(heights):
+        max_area = 0
+        
+        for i in range(len(heights)):
             if stk:
                 temp = None
-                while stk and stk[-1][1] > height:
+                while stk and stk[-1][1] > heights[i]:
+                    area = stk[-1][1] * (i - stk[-1][0])
+                    max_area = max(max_area, area)
                     temp = stk.pop()
-                    max_area = max(max_area, temp[1] * (i - temp[0]))
                 
-                stk.append([temp[0] if temp != None else i, height])
-                
+                if temp == None:
+                    stk.append((i, heights[i]))
+                else:
+                    stk.append((temp[0], heights[i]))
             else:
-                stk.append([i, height])
-
-        if stk:
-            while stk:
-                x = stk.pop()
-                max_area = max(max_area, x[1] * (len(heights) - x[0]))
+                stk.append((i, heights[i]))
         
+        for t in stk:
+            area = (len(heights) - t[0]) * t[1]
+            max_area = max(max_area, area)
+
         return max_area
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        # stk = []
+        # max_area = 0 
+        # for i, height in enumerate(heights):
+        #     if stk:
+        #         temp = None
+        #         while stk and stk[-1][1] > height:
+        #             temp = stk.pop()
+        #             max_area = max(max_area, temp[1] * (i - temp[0]))
+                
+        #         stk.append([temp[0] if temp != None else i, height])
+                
+        #     else:
+        #         stk.append([i, height])
+
+        # if stk:
+        #     while stk:
+        #         x = stk.pop()
+        #         max_area = max(max_area, x[1] * (len(heights) - x[0]))
+        
+        # return max_area
 
 
 
