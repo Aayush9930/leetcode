@@ -11,7 +11,7 @@ class Solution:
                 l = mid + 1
             
             elif mid == len(nums) - 1:
-                if nums[mid - 1] > nums[mid]:
+                if nums[mid - 1] < nums[mid]:
                     return mid
                 r = mid - 1
 
