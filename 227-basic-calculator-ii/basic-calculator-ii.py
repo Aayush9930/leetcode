@@ -1,6 +1,6 @@
 class Solution:
     def calculate(self, s: str) -> int:
-        curr = prev = res = 0
+        prev = curr = res = 0
         curr_operation = "+"
         i = 0
 
@@ -15,30 +15,27 @@ class Solution:
                     res += curr
                     prev = curr
                 
-                elif curr_operation == '-':
+                elif curr_operation == "-":
                     res -= curr
                     prev = -curr
                 
                 elif curr_operation == "*":
                     res -= prev
-                    res += prev * curr
-                    prev = prev * curr
+                    res += curr * prev
+                    prev = curr * prev
                 
-                else:
+                elif curr_operation == "/":
                     res -= prev
                     res += int(prev / curr)
                     prev = int(prev / curr)
                 
                 curr = 0
                 i += 1
+
             elif s[i] != " ":
                 curr_operation = s[i]
-                i += 1 
+                i += 1
+
             else:
                 i += 1
         return res 
-
-
-
-
-    
