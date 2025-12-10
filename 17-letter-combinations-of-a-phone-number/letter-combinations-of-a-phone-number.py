@@ -11,14 +11,14 @@ class Solution:
             9: 'wxyz'
         }
 
-        return self._letterCombinations(digits, g)
+        return self._letterCombinations(digits, g, 0)
 
-    def _letterCombinations(self, digits, g):
-        if digits == '':
+    def _letterCombinations(self, digits, g, i):
+        if i == len(digits):
             return [""]
         
-        first = digits[0]
-        rest = self._letterCombinations(digits[1:], g)
+        first = digits[i]
+        rest = self._letterCombinations(digits, g, i + 1)
 
         out = []
         for c in g[int(first)]:
