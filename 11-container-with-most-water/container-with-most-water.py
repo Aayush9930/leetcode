@@ -18,7 +18,7 @@ class Solution:
                 area = min(height[l], height[r]) * (r - l)
                 max_area = max(area, max_area)
                 l += 1
-        
+        return max_area
 
 
 
@@ -66,21 +66,21 @@ class Solution:
 
 
 
-        l = 0
-        r = len(height) - 1
-        max_area = 0
-        while r > l:
-            if height[r]> height[l]:
-                max_area = max(max_area, min(height[r], height[l]) * (r-l))
-                l+=1
-            elif  height[r] < height[l]:
-                max_area = max(max_area, min(height[r], height[l]) * (r-l))
-                r -=1
-            else:
-                max_area = max(max_area, min(height[r], height[l]) * (r-l))
-                r-=1
-                l+=1
-        return max_area
+        # l = 0
+        # r = len(height) - 1
+        # max_area = 0
+        # while r > l:
+        #     if height[r]> height[l]:
+        #         max_area = max(max_area, min(height[r], height[l]) * (r-l))
+        #         l+=1
+        #     elif  height[r] < height[l]:
+        #         max_area = max(max_area, min(height[r], height[l]) * (r-l))
+        #         r -=1
+        #     else:
+        #         max_area = max(max_area, min(height[r], height[l]) * (r-l))
+        #         r-=1
+        #         l+=1
+        # return max_area
 
 
 
