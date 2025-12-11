@@ -4,9 +4,12 @@ class Solution:
         for i in range(len(graph)):
             g[i] = graph[i]
 
-        return self._allPathsSourceTarget(g, 0, len(graph) - 1)
+        return self._allPathsSourceTarget(g, 0, len(graph) - 1, {})
 
-    def _allPathsSourceTarget(self, graph, start, dst):
+    def _allPathsSourceTarget(self, graph, start, dst, memo):
+        if start in memo:
+            return memo[start]
+
         if start == dst:
             return [[ dst ]]
 
@@ -15,8 +18,9 @@ class Solution:
         
         out = []
         for n in graph[start]:
-            x  = self._allPathsSourceTarget(graph, n, dst)
+            x  = self._allPathsSourceTarget(graph, n, dst, memo)
             for p in x:
                 out.append([start, *p])
         
-        return out
+        memo[start] = out
+        return memo[start]
