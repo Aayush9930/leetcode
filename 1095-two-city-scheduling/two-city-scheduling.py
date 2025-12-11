@@ -4,7 +4,7 @@ class Solution:
         return self._twoCitySchedCost(costs, n, n, 0, {})
     
     def _twoCitySchedCost(self, cost, na, nb, i, memo):
-        m = (na, nb, i)
+        m = (na, nb)
         if m in memo:
             return memo[m]
 
