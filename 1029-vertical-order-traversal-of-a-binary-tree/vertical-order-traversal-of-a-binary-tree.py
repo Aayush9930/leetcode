@@ -6,35 +6,30 @@
 #         self.right = right
 class Solution:
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
-        
-        out = {}
-        col_map = defaultdict(list)  # col -> list of (row, val)
-        def dfs(node, row, col):
-            if not node:
+        h = {}
+        def dfs(root, row, col):
+            if not root:
                 return 
-
-            if col in out:
-                out[col].append(node.val)
-            else:
-                out[col] = [ node.val ]
-                
-            col_map[col].append((row, node.val))
-            dfs(node.left, row + 1, col - 1)
-            dfs(node.right, row + 1, col + 1)
-
+            
+            if col not in h:
+                h[col] = []
+            
+            h[col].append((row, root.val))
+        
+            dfs(root.left, row + 1, col - 1)
+            dfs(root.right, row + 1, col + 1)
+        
         dfs(root, 0, 0)
 
-        res = []
-        for col in sorted(col_map.keys()):                               # sort columns
-            pairs = sorted(col_map[col], key=lambda x: (x[0], x[1]))     # sort by row, then val
-            res.append([val for _, val in pairs])
-        return res
+        #-1 : [9]
+        # 0: [3, 15]
+        for col in h:
+            h[col].sort()
 
-            
-
-            
-
-
-
-
-    
+        res = [] 
+        for key, val in h.items():
+            res.append((key, val))
+        
+        res.sort()
+        out = [[v for r, v in pairs] for col, pairs in res]
+        return out
