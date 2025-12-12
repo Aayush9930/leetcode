@@ -12,43 +12,27 @@
 
 class Solution:
     def countShips(self, sea: 'Sea', topRight: 'Point', bottomLeft: 'Point') -> int:
-
-        def findShips(topRight, bottomLeft):
-            if topRight.x < bottomLeft.x or topRight.y < bottomLeft.y:
+        if topRight.x < bottomLeft.x or topRight.y < bottomLeft.y:
+            return 0
+        elif topRight.x == bottomLeft.x and topRight.y == bottomLeft.y:
+            if sea.hasShips(topRight, bottomLeft) == True:
+                return 1
+            return 0
+        if not sea.hasShips(topRight, bottomLeft):
                 return 0
-            elif topRight.x == bottomLeft.x and topRight.y == bottomLeft.y:
-                return int(sea.hasShips(topRight, bottomLeft))
 
-            if not sea.hasShips(topRight, bottomLeft):
-                return 0
+        
+        mid_x = (topRight.x + bottomLeft.x) // 2 
+        mid_y = (topRight.y + bottomLeft.y) // 2 
 
-            midX = (bottomLeft.x + topRight.x) // 2
-            midY = (bottomLeft.y + topRight.y) // 2
-            mid = Point(midX, midY)
+        topRQ = self.countShips(sea, topRight, Point(mid_x + 1, mid_y + 1))
+        topLQ = self.countShips(sea, Point(mid_x, topRight.y), Point(bottomLeft.x, mid_y + 1))
+        bottomLQ = self.countShips(sea, Point(mid_x, mid_y), bottomLeft)
+        bottomRQ = self.countShips(sea, Point(topRight.x, mid_y), Point(mid_x + 1, bottomLeft.y))
 
-            topLeftQ = findShips(Point(mid.x, topRight.y), Point(bottomLeft.x, mid.y + 1))
-            topRightQ = findShips(topRight, Point(mid.x + 1, mid.y + 1))
-            bottomRightQ = findShips(Point(topRight.x, mid.y), Point(mid.x + 1, bottomLeft.y))
-            bottomLeftQ = findShips(Point(mid.x, mid.y), bottomLeft)
-
-            return topLeftQ + topRightQ + bottomRightQ + bottomLeftQ
-
-        return findShips(topRight, bottomLeft)
+        return topLQ + topRQ + bottomLQ + bottomRQ
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
