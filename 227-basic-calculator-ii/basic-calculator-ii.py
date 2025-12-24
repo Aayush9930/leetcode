@@ -1,41 +1,42 @@
 class Solution:
     def calculate(self, s: str) -> int:
-        prev = curr = res = 0
+        prev_num = 0
+        curr_num = 0
+        res = 0
         curr_operation = "+"
         i = 0
 
         while i < len(s):
             if s[i].isdigit():
+                num = ""
                 while i < len(s) and s[i].isdigit():
-                    curr = curr * 10 + int(s[i])
-                    i += 1
+                    num = num + s[i]
+                    i += 1 
+                curr_num = int(num)
                 i -= 1
 
                 if curr_operation == "+":
-                    res += curr
-                    prev = curr
-                
+                    res = res + curr_num
+                    prev_num = curr_num
+
                 elif curr_operation == "-":
-                    res -= curr
-                    prev = -curr
+                    res = res - curr_num
+                    prev_num = -curr_num
                 
                 elif curr_operation == "*":
-                    res -= prev
-                    res += curr * prev
-                    prev = curr * prev
+                    res = res - prev_num
+                    res += (prev_num * curr_num)
+                    prev_num = (prev_num * curr_num)
                 
                 elif curr_operation == "/":
-                    res -= prev
-                    res += int(prev / curr)
-                    prev = int(prev / curr)
+                    res = res - prev_num
+                    res += int(prev_num / curr_num)
+                    prev_num = int(prev_num / curr_num)
                 
-                curr = 0
-                i += 1
-
-            elif s[i] != " ":
+            elif s[i] in "+-*/":
                 curr_operation = s[i]
-                i += 1
+            
+            i += 1
+        
+        return res
 
-            else:
-                i += 1
-        return res 
