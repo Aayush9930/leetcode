@@ -3,14 +3,14 @@ class Solution:
         f = {}
         for c in word:
             f[c] = 1 + f.get(c, 0) 
-        print(f)
-        for c in word:
-            temp = f.copy()
-            temp[c] -= 1
-            if temp[c] == 0:
-                del temp[c]
-            print(temp)
-            if len(set(temp.values())) == 1:
-                return True
 
-        return False
+        for c in word:
+            f_copy = f.copy()
+            f_copy[c] -= 1
+            if f_copy[c] == 0:
+                del f_copy[c]
+            
+            if len(set(f_copy.values())) == 1:
+                return True
+        
+        return False 
