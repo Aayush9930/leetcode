@@ -1,3 +1,6 @@
+from collections import defaultdict
+from typing import List
+
 class Solution:
     def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
         g = defaultdict(dict)
@@ -10,32 +13,26 @@ class Solution:
         out = []
         for x, y in queries:
             if x not in g or y not in g:
-                out.append(-1)
+                out.append(-1.0)
                 continue
             if x == y:
-                if x in g:
-                    out.append(1)
-                    continue
-            else:
-                x = self.calc(g, x, y, None, set())
-                if x:
-                    out.append(x)
-                else:
-                    out.append(-1)
-        return out 
+                out.append(1.0)
+                continue
 
-    def calc(self, g, start, end, parent, visited):
+            ans = self.calc(g, x, y, set())
+            out.append(ans if ans is not None else -1.0)
+
+        return out
+
+    def calc(self, g, start, end, visited):
         if start == end:
-            return 1
-        
-        visited.add(start)
-        found = None
-        for n in g[start]:
-            if n != parent and n not in visited:
-                x = self.calc(g, n, end, start, visited)
-                if x != None:
-                    return g[start][n] * x
-        visited.remove(start)
-    
-            
+            return 1.0
 
+        visited.add(start)
+
+        for n in g[start]:
+            if n not in visited:
+                x = self.calc(g, n, end, visited)
+                if x is not None:   
+                    return g[start][n] * x
+        return None
