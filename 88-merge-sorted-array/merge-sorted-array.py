@@ -3,17 +3,24 @@ class Solution:
         """
         Do not return anything, modify nums1 in-place instead.
         """
-        i = m - 1          # last valid element in nums1
-        j = n - 1          # last element in nums2
-        k = m + n - 1      # last position in nums1 (full size)
+        x, y = m - 1, n - 1
+        i = len(nums1) - 1
 
-        # Fill nums1 from the back
-        while j >= 0:
-            # If nums1 still has elements and its current is bigger, place it
-            if i >= 0 and nums1[i] > nums2[j]:
-                nums1[k] = nums1[i]
+        while y >= 0 and x >= 0:
+            if nums1[x] <= nums2[y]:
+                nums1[i] = nums2[y]
+                y -= 1
                 i -= 1
-            else:
-                nums1[k] = nums2[j]
-                j -= 1
-            k -= 1
+            
+            elif nums1[x] > nums2[y]:
+                temp = nums1[x]
+                nums1[x] = 0
+                nums1[i] = temp
+                i -= 1
+                x -= 1
+        
+        if y >= 0:
+            while y >= 0:
+                nums1[i] = nums2[y]
+                i -= 1
+                y -= 1
