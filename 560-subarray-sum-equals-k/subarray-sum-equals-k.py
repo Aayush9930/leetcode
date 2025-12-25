@@ -5,15 +5,14 @@ class Solution:
         for num in nums:
             total += num
             prefix_sum.append(total)
-
-        seen = {}
+        
         res = 0
+        seen = defaultdict(int)
         for b in range(len(prefix_sum)):
             if (prefix_sum[b] - k) in seen:
-                res += seen[prefix_sum[b] - k]
-                seen[prefix_sum[b]] = 1 + seen.get(prefix_sum[b], 0)
+                res += seen.get(prefix_sum[b] - k)
+                seen[prefix_sum[b]] += 1
             else:
-                seen[prefix_sum[b]] = 1 + seen.get(prefix_sum[b], 0)
-            
+                seen[prefix_sum[b]] += 1 
+        
         return res
-            
