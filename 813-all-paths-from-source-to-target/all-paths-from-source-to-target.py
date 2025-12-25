@@ -1,26 +1,19 @@
 class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
-        g = {}
-        for i in range(len(graph)):
-            g[i] = graph[i]
+        return self._allPathsSourceTarget(graph, 0, len(graph) - 1)
 
-        return self._allPathsSourceTarget(g, 0, len(graph) - 1, {})
-
-    def _allPathsSourceTarget(self, graph, start, dst, memo):
-        if start in memo:
-            return memo[start]
-
-        if start == dst:
-            return [[ dst ]]
-
-        if graph[start] == []:
-            return []
+    def _allPathsSourceTarget(self, g, src, dst):
+        if src == dst:
+            return [[ src ]]
+        
+        if g[src] == []:
+            return None
         
         out = []
-        for n in graph[start]:
-            x  = self._allPathsSourceTarget(graph, n, dst, memo)
-            for p in x:
-                out.append([start, *p])
-        
-        memo[start] = out
-        return memo[start]
+        for n in g[src]:
+            x = self._allPathsSourceTarget(g, n, dst)
+            if x != None:
+                for p in x:
+                    out.append([src, *p])
+
+        return out
