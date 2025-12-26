@@ -1,19 +1,19 @@
 class Solution:
     def triangleNumber(self, nums: List[int]) -> int:
+        if len(nums) < 3:
+            return 0
+
         nums.sort()
-        count = 0
+
+        res = 0
         for k in range(2, len(nums)):
             i, j = 0, k - 1
 
             while i < j:
-                total = nums[i] + nums[j]
-
-                if total > nums[k]:  # valid triangle
-                    count += (j - i)
+                if nums[i] + nums[j] > nums[k]:
+                    res += j - i
                     j -= 1
                 
-                elif total <= nums[k]:
+                elif nums[i] + nums[j] <= nums[k]:
                     i += 1
-        
-        return count
-                
+        return res
