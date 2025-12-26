@@ -1,22 +1,22 @@
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
-        max_mr = 0
-        count = 0
-        start = sorted([ x for x, y in intervals ])
-        ends = sorted([ y for x, y in intervals ])
-        s = e = 0
-
-        while s < len(start):
-            if start[s] < ends[e]:
-                count += 1
+        starts = sorted([ s for s, e in intervals ])
+        ends = sorted([ e for s, e in intervals ])
+        s, e = 0, 0
+        max_meeting = 0
+        meeting = 0
+        while s < len(starts):
+            if starts[s] < ends[e]:
+                meeting += 1
+                max_meeting = max(max_meeting, meeting)
                 s += 1
-            elif start[s] > ends[e]:
-                count -= 1
+            elif starts[s] > ends[e]:
+                meeting -= 1
+                max_meeting = max(max_meeting, meeting)
                 e += 1
-            else:   
-                count -= 1
+            else:
+                meeting -= 1
+                max_meeting = max(max_meeting, meeting)
                 e += 1
 
-            max_mr = max(max_mr, count)
-
-        return max_mr
+        return max_meeting
