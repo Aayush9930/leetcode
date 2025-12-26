@@ -10,11 +10,7 @@ class Solution:
                 meeting += 1
                 max_meeting = max(max_meeting, meeting)
                 s += 1
-            elif starts[s] > ends[e]:
-                meeting -= 1
-                max_meeting = max(max_meeting, meeting)
-                e += 1
-            else:
+            elif starts[s] >= ends[e]:
                 meeting -= 1
                 max_meeting = max(max_meeting, meeting)
                 e += 1
