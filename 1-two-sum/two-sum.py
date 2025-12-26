@@ -1,15 +1,10 @@
 class Solution:
-    def twoSum(self, nums, target):
-        # hashPrev = {}
-        # for i in range(len(nums)):
-        #     diff = target - nums[i]
-        #     if diff in hashPrev:
-        #         return [hashPrev[diff], i]
-        #     hashPrev[nums[i]] = i
-        setNums = {}
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        h = {}
 
-        for i in range(len(nums)):
-            if (target - nums[i]) in setNums:
-                return [i , setNums[target-nums[i]]]
+        for b in range(len(nums)):
+            if target - nums[b] in h:
+                return [h[target - nums[b]], b]
             else:
-                setNums[nums[i]] = i
+                h[nums[b]] = b
+          
