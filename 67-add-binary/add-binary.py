@@ -22,7 +22,7 @@ class Solution:
             x -= 1
             y-= 1
         
-        if x < 0:
+        if y >= 0:
             while y >= 0:
                 if int(b[y]) + carry == 2:
                     out = "0" + out
@@ -35,7 +35,7 @@ class Solution:
                     carry = 0
                 
                 y -= 1
-        if y < 0:
+        if x >= 0:
             while x >= 0:
                 if int(a[x]) + carry == 2:
                     out = "0" + out
