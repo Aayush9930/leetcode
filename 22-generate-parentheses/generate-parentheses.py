@@ -1,26 +1,22 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        return self.generateParenthesis_helper(n, n)
-
-    def generateParenthesis_helper(self, left, right):
+        return self._generateParenthesis(n, n)
+    
+    def _generateParenthesis(self, left, right):
         if left == 0 and right == 0:
             return ['']
 
         out = []
-
-        # choosing left
         if left > 0:
-            rest = self.generateParenthesis_helper(left - 1, right)
-
-            for s in rest:
-                out.append('(' + s)
- 
-        # choosing right iff left < right
-
-        if left < right:
-            rest2 = self.generateParenthesis_helper(left, right - 1)
-
-            for s2 in rest2:
-                out.append(')' + s2)
-
+            x = self._generateParenthesis(left - 1, right)
+            for p in x:
+                out.append("(" + p)
+        
+        if right > left:
+            y = self._generateParenthesis(left, right - 1)
+            for p in y:
+                out.append(')' + p)
+        
         return out
+                
+
