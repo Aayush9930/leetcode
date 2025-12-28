@@ -7,11 +7,15 @@ class Leaderboard:
         self.players[playerId] += score
 
     def top(self, K: int) -> int:
-        res = sorted(self.players.items(), key = lambda x: x[1], reverse = True)
-        total = 0
-        for i in range(K):
-            total += res[i][1]
-        return total
+        heap = []
+        for x in self.players.values():
+            heapq.heappush(heap, x)
+            if len(heap) > K:
+                heapq.heappop(heap)
+        res = 0
+        while heap:
+            res += heapq.heappop(heap)
+        return res
     def reset(self, playerId: int) -> None:
         self.players[playerId] = 0
 
