@@ -1,35 +1,34 @@
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
-        return self._minDistance(word1, word2, {})
+        return self._minDistance(word1, word2, 0, 0, {})
 
-    
-    
-    def _minDistance(self, word1: str, word2: str, memo) -> int:
-        if (word1, word2) in memo:
-            return memo[(word1, word2)]
+    def _minDistance(self, word1, word2, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
 
-        if len(word1) == 0:
-            return len(word2)
-        if len(word2) == 0:
-            return len(word1)
-
-        if word1[0] == word2[0]:
-            memo[(word1, word2)] =  self._minDistance(word1[1:], word2[1:], memo)
-            return memo[(word1, word2)]
+        if i >= len(word1) and j >= len(word2):
+            return 0
         
-        elif word1[0] != word2[0]:
-            options = []
+        if j >= len(word2):
+            return len(word1) - i
+        
+        if i >= len(word1):
+            return len(word2) - j
+        
+        if i < len(word1) and word1[i] == word2[j]:
+            memo[(i, j)] = self._minDistance(word1, word2, i + 1, j + 1, memo)
+            return memo[(i, j)]
+        out = []
+        # insert 
+        insert = 1 + self._minDistance(word1, word2, i, j + 1, memo)
+        out.append(insert)
+        # delete 
+        if i < len(word1):
+            delete = 1 + self._minDistance(word1, word2, i + 1, j, memo)
+            out.append(delete)
+        # Replace
+        replace = 1 + self._minDistance(word1, word2, i + 1, j + 1, memo)
+        out.append(replace)
 
-            # insert
-            insert = 1 + self._minDistance(word1, word2[1:], memo)
-            options.append(insert)
-            # delete
-            delete = 1 + self._minDistance(word1[1:], word2, memo)
-            options.append(delete)
-
-            # replace
-            replace = 1 + self._minDistance(word1[1:], word2[1:], memo)
-            options.append(replace)
-
-            memo[(word1, word2)] = min(options)
-            return memo[(word1, word2)]
+        memo[(i, j)] = min(out)
+        return memo[(i, j)]
