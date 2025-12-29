@@ -33,11 +33,10 @@ class Solution:
                 if num_parents[n] == 0:
                     ready.append(n)
 
-        if len(set(num_parents.values())) != 1:
+        if len(out) != numCourses:
             return []
-        
+
         return out
-            
 
 
 
