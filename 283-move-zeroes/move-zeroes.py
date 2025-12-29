@@ -3,14 +3,11 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-
-        i = 0
-        while i < len(nums):
-            if nums[i] == 0:
-                j = i
-                while j < len(nums) - 1 and nums[j] == 0:
-                    j += 1
-                nums[i], nums[j] = nums[j], nums[i]
-                i += 1
-            else:   
-                i += 1
+        l = 0
+        
+        for r in range(len(nums)):
+            if nums[r] != 0:
+                nums[l], nums[r] = nums[r], nums[l]
+                l += 1
+            else:
+                continue
