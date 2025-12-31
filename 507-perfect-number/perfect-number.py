@@ -1,10 +1,12 @@
 class Solution:
     def checkPerfectNumber(self, num: int) -> bool:
-        return (num == 6 or num == 28 or num == 496 or num == 8128 or num == 33550336)
-        
-        # res = []
-        # for i in range(1, num):
-        #     if num % i == 0:
-        #         res.append(i)
+        if num == 1:
+            return False
 
-        # return sum(res) == num
+        total = 1
+        for i in range(2, int(sqrt(num)) + 1):
+            if num % i == 0:
+                total += i 
+                total += int(num / i)
+
+        return total == num
