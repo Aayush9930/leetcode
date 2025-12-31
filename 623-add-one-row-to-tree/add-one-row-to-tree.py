@@ -27,10 +27,9 @@ class Solution:
                 n.left.left = temp_left
                 n.right.right = temp_right
 
-            else:
-                if n.left:
-                    q.append((n.left, l + 1))
+            if n.left:
+                q.append((n.left, l + 1))
                 
-                if n.right:
-                    q.append((n.right, l + 1))
+            if n.right:
+                q.append((n.right, l + 1))
         return root
