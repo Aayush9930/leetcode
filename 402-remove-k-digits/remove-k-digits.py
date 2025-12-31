@@ -12,16 +12,16 @@ class Solution:
         while k != 0:
             stk.pop()
             k -= 1
-        
-        print(stk)
 
+        i = 0
+        while i < len(stk) and stk[i] == "0":
+            i += 1
         
-        while stk and stk[0] == "0":
-            stk.pop(0)
+        stk = stk[i:]
+
+        print(stk)
 
         if not stk:
             return "0"
         
         return "".join(stk)
-
-__import__("atexit").register(lambda: open("display_runtime.txt", "w").write("0"))
