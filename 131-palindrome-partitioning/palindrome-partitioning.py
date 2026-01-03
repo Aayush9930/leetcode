@@ -9,7 +9,9 @@ class Solution:
         out = []
         seen = set()
         for p in rest:
-            out.append([first, *p])
+            if tuple([first, *p]) not in seen:
+                seen.add(tuple([first, *p]))
+                out.append([first, *p])
             string = first
             for i in range(len(p)):
                 string = string + p[i]
