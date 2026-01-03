@@ -1,6 +1,6 @@
 import heapq
-from collections import defaultdict
 from typing import List
+from collections import defaultdict
 
 class TrieNode:
     def __init__(self):
@@ -12,52 +12,59 @@ class AutocompleteSystem:
         self.root = TrieNode()
         self.currSentence = ""
         self.currPointer = self.root
-        self.freq = defaultdict(int)
+        self.freq = defaultdict(int)   # <-- add frequency map
 
-        for s, t in zip(sentences, times):
-            self.freq[s] += t
-            self._insert(s)
+        for i in range(len(sentences)):
+            self.addSentence(sentences[i], times[i])  # now "f" is a delta
 
-    def _insert(self, s: str):
-        node = self.root
-        for ch in s:
-            if ch not in node.children:
-                node.children[ch] = TrieNode()
-            node = node.children[ch]
-            heapq.heappush(node.sentences, (-self.freq[s], s))  # push current freq
+    def addSentence(self, s, f):
+        # f is delta; keep true total in freq
+        self.freq[s] += f
+        total = self.freq[s]
+
+        curr = self.root
+        for c in s:
+            if c not in curr.children:
+                curr.children[c] = TrieNode()
+            curr = curr.children[c]
+
+            # Option A update: remove old entries for s, then push updated one
+            if curr.sentences:
+                curr.sentences = [(negf, sent) for (negf, sent) in curr.sentences if sent != s]
+                heapq.heapify(curr.sentences)
+            heapq.heappush(curr.sentences, (-total, s))
 
     def input(self, c: str) -> List[str]:
         if c == "#":
-            self.freq[self.currSentence] += 1
-            self._insert(self.currSentence)
+            self.addSentence(self.currSentence, 1)
             self.currSentence = ""
             self.currPointer = self.root
             return []
 
-        # ALWAYS build the current sentence
+        # IMPORTANT: always advance the current sentence
         self.currSentence += c
 
-        # If path doesn't exist yet, create it and return []
+        # if path doesn't exist, create it and return []
         if c not in self.currPointer.children:
             self.currPointer.children[c] = TrieNode()
             self.currPointer = self.currPointer.children[c]
             return []
 
+        # move pointer
         self.currPointer = self.currPointer.children[c]
-        heap = self.currPointer.sentences
 
-        res = []
+        a = self.currPointer.sentences
+        out = []
         popped = []
-        while heap and len(res) < 3:
-            f, s = heapq.heappop(heap)
-            # discard stale entries
-            if -f != self.freq[s]:
-                continue
-            res.append(s)
-            popped.append((f, s))
 
-        # put back the valid ones we popped
+        for _ in range(3):
+            if not a:
+                break
+            item = heapq.heappop(a)
+            popped.append(item)
+            out.append(item[1])
+
         for item in popped:
-            heapq.heappush(heap, item)
+            heapq.heappush(a, item)
 
-        return res
+        return out
